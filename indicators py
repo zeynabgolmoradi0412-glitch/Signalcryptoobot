@@ -1,0 +1,29 @@
+import pandas as pd
+import ta
+
+
+def calculate_indicators(ohlcv):
+    df = pd.DataFrame(
+        ohlcv,
+        columns=[
+            "time",
+            "open",
+            "high",
+            "low",
+            "close",
+            "volume"
+        ]
+    )
+
+    df["EMA20"] = ta.trend.ema_indicator(df["close"], window=20)
+    df["EMA50"] = ta.trend.ema_indicator(df["close"], window=50)
+    df["EMA200"] = ta.trend.ema_indicator(df["close"], window=200)
+
+    df["RSI"] = ta.momentum.rsi(df["close"], window=14)
+
+    macd = ta.trend.MACD(df["close"])
+
+    df["MACD"] = macd.macd()
+    df["MACD_SIGNAL"] = macd.macd_signal()
+
+    return df
