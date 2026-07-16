@@ -1,0 +1,39 @@
+from telegram import Bot
+from telegram.constants import ParseMode
+from config import BOT_TOKEN, CHAT_ID
+
+bot = Bot(token=BOT_TOKEN)
+
+async def send_signal(
+    symbol,
+    signal,
+    entry,
+    tp1,
+    tp2,
+    sl,
+    score
+):
+    emoji = "🟢" if signal == "BUY" else "🔴"
+
+    text = f"""
+{emoji} <b>Crypto Signal</b>
+
+🪙 <b>Coin:</b> {symbol}
+
+📌 <b>Signal:</b> {signal}
+
+💰 Entry: {entry}
+
+🎯 TP1: {tp1}
+🎯 TP2: {tp2}
+
+🛑 Stop Loss: {sl}
+
+⭐ Score: {score}/10
+"""
+
+    await bot.send_message(
+        chat_id=CHAT_ID,
+        text=text,
+        parse_mode=ParseMode.HTML
+    )
